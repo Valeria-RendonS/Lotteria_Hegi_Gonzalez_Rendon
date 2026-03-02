@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesso / Registrazione</title>
+    <style>
+        :root {
+            --colore_primario: #6366f1;
+            --colore_primario_hover: #4f46e5;
+            --sfumatura_sfondo: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --testo_principale: #1f2937;
+            --testo_secondario: #6b7280;
+            --sfondo_scheda: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--sfumatura_sfondo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: var(--testo_principale);
+        }
+
+        /* Contenitore principale */
+        .scheda_principale {
+            background-color: var(--sfondo_scheda);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+        }
+
+        /* Schermata di Selezione Iniziale */
+        #schermata_selezione {
+            text-align: center;
+        }
+
+        .testo_benvenuto {
+            margin-bottom: 30px;
+        }
+
+        .gruppo_bottoni {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Moduli (nascosti di default) */
+        .sezione_modulo {
+            display: none;
+            animation: apparizione 0.4s ease-out;
+        }
+
+        @keyframes apparizione {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--testo_secondario);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--colore_primario);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--colore_primario);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--colore_primario_hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .bottone_secondario {
+            background-color: transparent;
+            color: var(--colore_primario);
+            border: 2px solid var(--colore_primario);
+        }
+
+        .bottone_secondario:hover {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        /* Link per tornare indietro */
+        .link_indietro {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--testo_secondario);
+            text-decoration: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .link_indietro:hover {
+            color: var(--colore_primario);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scheda_principale">
+        
+        <div id="schermata_selezione">
+            <div class="testo_benvenuto">
+                <h2>Benvenuto</h2>
+                <p style="color: var(--testo_secondario);">Scegli come procedere</p>
+            </div>
+            <div class="gruppo_bottoni">
+                <button onclick="mostra_sezione('login')">Accedi</button>
+                <button class="bottone_secondario" onclick="mostra_sezione('registrazione')">Crea un Account</button>
+            </div>
+        </div>
+
+        <div id="registrazione" class="sezione_modulo">
+            <h2>Registrazione</h2>
+            <form action="registrazione.php" method="POST">
+                <label for="user_name">Username</label>
+                <input type="text" id="user_name" name="user_name" required data-salva>
+
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" required data-salva>
+
+                <label for="cognome">Cognome</label>
+                <input type="text" id="cognome" name="cognome" required data-salva>
+
+                <label for="n_telefono">Numero di telefono</label>
+                <input type="tel" id="n_telefono" name="n_telefono" required data-salva>
+
+                <label for="data_nascita">Data di nascita</label>
+                <input type="date" id="data_nascita" name="data_nascita" required data-salva>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required data-salva>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Registrati</button>
+            </form>
+            <a class="link_indietro" onclick="mostra_sezione('selezione')">← Torna alla scelta</a>
+        </div>
+
+        <div id="login" class="sezione_modulo">
+            <h2>Login</h2>
+            <form action="login.php" method="POST">
+                <label for="login_user">Username</label>
+                <input type="text" id="login_user" name="user_name" required data-salva>
+
+                <label for="login_password">Password</label>
+                <input type="password" id="login_password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+            <a class="link_indietro" onclick="mostra_sezione('selezione')">← Torna alla scelta</a>
+        </div>
+
+    </div>
+
+    <script>
+        /**
+         * Gestisce la visibilità delle sezioni e memorizza la scelta
+         */
+        function mostra_sezione(id_sezione) {
+            document.getElementById('schermata_selezione').style.display = 'none';
+            document.getElementById('registrazione').style.display = 'none';
+            document.getElementById('login').style.display = 'none';
+
+            if (id_sezione === 'selezione') {
+                document.getElementById('schermata_selezione').style.display = 'block';
+                sessionStorage.removeItem('sezione_attiva');
+            } else {
+                document.getElementById(id_sezione).style.display = 'block';
+                sessionStorage.setItem('sezione_attiva', id_sezione);
+            }
+        }
+
+        /**
+         * Ascolta i cambiamenti negli input e salva i dati nel session_storage
+         */
+        function inizializza_salvataggio_dati() {
+            const tutti_gli_input = document.querySelectorAll('input[data-salva]');         //crea un array di tutti gli input con l'attributo personalizzato: data-salva
+            tutti_gli_input.forEach(input_singolo => {
+                input_singolo.addEventListener('input', () => {
+                    sessionStorage.setItem(input_singolo.id, input_singolo.value);
+                });
+            });
+        }
+
+        /**
+         * Ripristina lo stato della pagina al caricamento
+         */
+        window.onload = () => {
+            // 1. Ripristina la sezione visualizzata
+            const sezione_salvata = sessionStorage.getItem('sezione_attiva');
+            if (sezione_salvata) {
+                mostra_sezione(sezione_salvata);
+            }
+
+            // 2. Ripristina i valori dei campi di testo
+            const tutti_gli_input = document.querySelectorAll('input[data-salva]');
+            tutti_gli_input.forEach(input_singolo => {
+                const valore_recuperato = sessionStorage.getItem(input_singolo.id);
+                if (valore_recuperato) {
+                    input_singolo.value = valore_recuperato;
+                }
+            });
+
+            inizializza_salvataggio_dati();
+        };
+    </script>
+
+</body>
+</html>
