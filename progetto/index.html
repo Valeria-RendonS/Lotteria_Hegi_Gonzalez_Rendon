@@ -141,6 +141,31 @@
             color: var(--colore_primario);
             text-decoration: underline;
         }
+        .pw-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .pw-wrap input {
+            margin-bottom: 0 !important;
+            width: 100% !important;
+            padding-right: 42px !important;
+        }
+        .pw-wrap .pw-occhio {
+            position: absolute !important;
+            right: 12px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: auto !important;
+            padding: 4px 6px !important;
+            background: none !important;
+            border: none !important;
+            cursor: pointer !important;
+            color: #888 !important;
+            font-size: 1rem !important;
+            line-height: 1 !important;
+            z-index: 2 !important;
+        }
+        .pw-wrap .pw-occhio:hover { color: #333 !important; }
     </style>
 </head>
 <body>
@@ -180,7 +205,26 @@
                 <input type="email" id="email" name="email" required data-salva>
 
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <div class="pw-wrap">
+                    <input type="password" id="password" name="password" required minlength="8">
+                    <button type="button" class="pw-occhio" onclick="toggle_pw('password', this)"><i class="fa fa-eye"></i></button>
+                </div>
+
+                <label for="password_conferma">Conferma Password</label>
+                <div class="pw-wrap">
+                    <input type="password" id="password_conferma" name="password_conferma" required minlength="8">
+                    <button type="button" class="pw-occhio" onclick="toggle_pw('password_conferma', this)"><i class="fa fa-eye"></i></button>
+                </div>
+
+                <div style="background:#f8f9fa;border-radius:8px;padding:10px 14px;margin-bottom:10px;text-align:left;font-size:0.8rem;color:#888;">
+                    <b style="color:#555;">criteri password:</b>
+                    <ul style="padding-left:16px;margin-top:4px;">
+                        <li>almeno 8 caratteri</li>
+                        <li>almeno una lettera maiuscola</li>
+                        <li>almeno un numero</li>
+                        <li>almeno un carattere speciale (es. ! @ # $ %)</li>
+                    </ul>
+                </div>
 
                 <button type="submit">Registrati</button>
             </form>
@@ -190,14 +234,18 @@
         <div id="login" class="sezione_modulo">
             <h2>Login</h2>
             <form action="login.php" method="POST">
-                <label for="login_user">Username</label>
+                <label for="login_user">Username o Email</label>
                 <input type="text" id="login_user" name="user_name" required data-salva>
 
                 <label for="login_password">Password</label>
-                <input type="password" id="login_password" name="password" required>
+                <div class="pw-wrap">
+                    <input type="password" id="login_password" name="password" required>
+                    <button type="button" class="pw-occhio" onclick="toggle_pw('login_password', this)"><i class="fa fa-eye"></i></button>
+                </div>
 
                 <button type="submit">Login</button>
             </form>
+            <a href="recupera_password.php" class="link_indietro">hai dimenticato la password?</a>
             <a class="link_indietro" onclick="mostra_sezione('selezione')">← Torna alla scelta</a>
         </div>
 
@@ -207,6 +255,17 @@
         /**
          * Gestisce la visibilità delle sezioni e memorizza la scelta
          */
+        function toggle_pw(id, btn) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                btn.innerHTML = '<i class="fa fa-eye-slash"></i>';
+            } else {
+                input.type = "password";
+                btn.innerHTML = '<i class="fa fa-eye"></i>';
+            }
+        }
+
         function mostra_sezione(id_sezione) {
             document.getElementById('schermata_selezione').style.display = 'none';
             document.getElementById('registrazione').style.display = 'none';

@@ -1,0 +1,76 @@
+drop database if exists lotteria_db;
+create database lotteria_db;
+use lotteria_db;
+
+create table utente(
+	id int primary key auto_increment,
+	nome varchar(50) not null,
+	cognome varchar(50) not null,
+	email varchar(100) not null unique,
+	user_name varchar(50) not null unique,
+	n_telefono varchar(10) not null check(char_length(n_telefono) >= 3),
+	data_nascita date not null,
+	password varchar(300) not null,
+	crediti int not null default 100,
+	data_registrazione date not null default current_date,
+	last_login date not null,
+	codice_OTP int (6) null,
+	token_recupero varchar(64) null,
+	bloccato bool not null default false,
+	ruolo varchar(20) not null
+);
+
+
+create table lotteria(
+	id int primary key auto_increment,
+	tipo varchar(20) not null check(tipo in ('data_fissa', 'esaurimento')),
+	nome varchar(50) not null unique,
+	descrizione varchar(200) not null,
+	incasso int not null default 0,
+	erogato int not null default 0,
+	prezzo_biglietto int not null default 1,
+	n_biglietti_totali int not null,
+	n_biglietti_venduti int not null default 0,
+	data_inizio_acquisti date not null,
+	data_estrazione date null,
+	data_fine_acquisti date null,
+	stato varchar(20) not null check(stato in ("attivo", "finito", "bozza")),
+
+	data_accredito date null,
+
+	id_admin int,
+	biglietto_vincente int null,
+
+	foreign key (id_admin) references utente(id)
+);
+
+
+
+create table biglietto(
+	id int primary key auto_increment,
+	numero_biglietto int not null,
+	prezzo_biglietto int not null,
+	
+	data_acquisto date null,
+
+	id_lotteira int,
+	id_cliente int,
+	
+	foreign key (id_lotteira) references lotteria(id) on delete cascade,
+	foreign key (id_cliente) references utente(id)
+);
+
+alter table lotteria add foreign key (biglietto_vincente) references biglietto(id);
+
+create table vincita(
+	data date not null,
+	quantita int not null,
+	
+	id_lotteria int,
+	id_cliente int,
+
+	foreign key (id_lotteria) references lotteria(id),
+	foreign key (id_cliente) references utente(id)
+);
+
+ALTER TABLE lotteria ALTER id_admin SET DEFAULT 1;
