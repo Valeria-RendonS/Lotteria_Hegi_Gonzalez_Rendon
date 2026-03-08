@@ -172,6 +172,7 @@ function linkPagina($num_pagina, $search, $stato, $p_min, $p_max) {
 <body>
 
     <header class="hero w3-center">
+        <a href="dashboardUtente.php" style="display:inline-block;margin-bottom:15px;color:rgba(255,255,255,0.8);font-size:0.9rem;text-decoration:none;"><i class="fa fa-arrow-left"></i> torna alla dashboard</a>
         <h1 class="w3-xxlarge"><b><i class="fa fa-ticket"></i> Gestione Lotterie</b></h1>
         <p class="w3-opacity">Pannello di controllo amministratore</p>
     </header>

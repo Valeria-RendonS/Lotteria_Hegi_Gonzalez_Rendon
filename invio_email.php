@@ -36,7 +36,7 @@
         $mail = new PHPMailer(true);
 
         // il token nell'url identifica univocamente la richiesta senza esporre l'id utente
-        $link = "http://localhost/pagine_web/prove%20lotteria/progetto/recupera_password.php?token=" . urlencode($token);
+        $link = "http://localhost/pagine_web/prove%20lotteria/progetto_finale_1/finale/recupera_password.php?token=" . urlencode($token);
 
         try {
             $mail->isSMTP();

@@ -192,7 +192,7 @@
 
     <?php elseif ($successo): ?>
         <div class="success"><i class="fa fa-check-circle"></i> password aggiornata con successo!</div>
-        <a href="index.html" class="button">vai al login</a>
+        <a href="dashboardUtente.php" class="button">vai alla dashboard</a>
 
     <?php elseif ($mostra_form_reset): ?>
         <p>inserisci il codice OTP ricevuto via mail e scegli la nuova password:</p>

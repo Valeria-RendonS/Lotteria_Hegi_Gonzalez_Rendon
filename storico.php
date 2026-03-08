@@ -1,5 +1,8 @@
 <?php
     session_start();
+// impedisce al browser di mostrare la pagina dalla cache dopo il logout
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
 
     require_once "funzioni.php";
 
@@ -265,7 +268,7 @@
     <div class="intestazione">
         <h1><i class="fa fa-history"></i> storico transazioni</h1>
     </div>
-    <a href="profilo.php" class="nav-link">← torna al profilo</a>
+    <a href="dashboardUtente.php" class="nav-link">← torna alla dashboard</a>
 
     <?php if ($errore): ?>
         <div class="error"><i class="fa fa-exclamation-triangle"></i> <?= htmlspecialchars($errore) ?></div>

@@ -16,7 +16,6 @@ create table utente(
 	last_login date not null,
 	codice_OTP int (6) null,
 	token_recupero varchar(64) null,
-	bloccato bool not null default false,
 	ruolo varchar(20) not null
 );
 

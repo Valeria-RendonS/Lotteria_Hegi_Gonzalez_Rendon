@@ -11,7 +11,10 @@
 
     // crea e restituisce la connessione pdo
     function get_pdo() {
-        require_once "connessione.php";
+        global $connString, $connUser, $connPass;
+        if (empty($connString)) {
+            require_once "connessione.php";
+        }
         $pdo = new PDO($connString, $connUser, $connPass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;

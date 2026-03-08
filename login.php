@@ -17,7 +17,7 @@
 
         $pdo = get_pdo();
 
-        $stm = $pdo->prepare("SELECT id, user_name, password, bloccato FROM utente WHERE user_name = :l OR email = :l");
+        $stm = $pdo->prepare("SELECT id, user_name, password, bloccato, ruolo FROM utente WHERE user_name = :l OR email = :l");
         $stm->execute(["l" => $login]);
         $utente = $stm->fetch(PDO::FETCH_ASSOC);
 
@@ -37,6 +37,7 @@
         // salva l'id in sessione per tener loggato l'utente
         $_SESSION["utente_id"] = $utente["id"];
         $_SESSION["user_name"] = $utente["user_name"];
+        $_SESSION["ruolo"]     = $utente["ruolo"];
 
         $successo = true;
 
@@ -89,7 +90,7 @@
             bentornato, <?= htmlspecialchars($_SESSION["user_name"]) ?>!
             <span>accesso effettuato con successo</span>
         </div>
-        <a href="dashboard.php" class="button" style="margin-top: 20px;"><i class="fa fa-home"></i> vai alla dashboard</a>
+        <a href="dashboardUtente.php" class="button" style="margin-top: 20px;"><i class="fa fa-home"></i> vai alla dashboard</a>
 
     <?php else: ?>
         <p>accesso non valido.</p>

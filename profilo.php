@@ -1,5 +1,8 @@
 <?php
     session_start();
+// impedisce al browser di mostrare la pagina dalla cache dopo il logout
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
 
     require_once "funzioni.php";
     require_once "invio_email.php";
@@ -10,6 +13,13 @@
     }
 
     $id_utente    = $_SESSION["utente_id"];
+
+    // legge il ruolo dal db
+    $pdo_r = get_pdo();
+    $stmt_r = $pdo_r->prepare("SELECT ruolo FROM utente WHERE id = :id");
+    $stmt_r->execute(["id" => $id_utente]);
+    $ruolo = $stmt_r->fetchColumn() ?: "utente";
+
     $errore       = null;
     $successo     = null;
     $in_modifica  = false;      // rimane true se c'è un errore durante la modifica
@@ -441,11 +451,13 @@
             <h1><i class="fa fa-user-circle"></i> profilo</h1>
             <span class="username">@<?= htmlspecialchars($utente["user_name"] ?? "") ?></span>
         </div>
+        <?php if(($ruolo ?? "utente") !== "admin"): ?>
         <a href="storico.php" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#6f42c1;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;font-size:0.88rem;">
             <i class="fa fa-history"></i> storico transazioni
         </a>
+        <?php endif; ?>
     </div>
-    <a href="dashboard.php" class="nav-link">← torna alla dashboard</a>
+    <a href="dashboardUtente.php" class="nav-link">← torna alla dashboard</a>
 
     <?php if ($errore): ?>
         <div class="error"><i class="fa fa-exclamation-triangle"></i> <?= htmlspecialchars($errore) ?></div>
