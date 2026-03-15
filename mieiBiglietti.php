@@ -17,7 +17,7 @@ $id_utente = $_SESSION['utente_id'];
 
 $sql = "SELECT b.numero_biglietto, l.nome AS nome_lotteria, l.data_estrazione, l.tipo 
         FROM biglietto b
-        JOIN lotteria l ON b.id_lotteira = l.id
+        JOIN lotteria l ON b.id_lotteria = l.id
         WHERE b.id_cliente = :id_cliente";
 
 $stmt = $pdo->prepare($sql);

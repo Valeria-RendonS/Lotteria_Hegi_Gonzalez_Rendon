@@ -62,7 +62,7 @@ try {
 
     // 6. Inserimento Biglietti con NOW()
     // Assicurati che 'data_acquisto' in tabella sia tipo DATETIME
-    $sql_big = "INSERT INTO biglietto (numero_biglietto, prezzo_biglietto, data_acquisto, id_lotteira, id_cliente) 
+    $sql_big = "INSERT INTO biglietto (numero_biglietto, prezzo_biglietto, data_acquisto, id_lotteria, id_cliente) 
                 VALUES (?, ?, NOW(), ?, ?)";
     $stmt_big = $pdo->prepare($sql_big);
     

@@ -75,24 +75,6 @@ header("Pragma: no-cache");
             $successo = "dati aggiornati con successo!";
         }
 
-        // — eliminazione account
-        elseif (isset($_POST["azione"]) && $_POST["azione"] === "elimina") {
-
-            $password_conferma = controllo_parametro("password", $_POST["password_conferma"] ?? "", 4);
-            $stm = $pdo->prepare("SELECT password FROM utente WHERE id = :id");
-            $stm->execute(["id" => $id_utente]);
-            $hash = $stm->fetchColumn();
-
-            if (!password_verify($password_conferma, $hash)) {
-                throw new Exception("password errata, account non eliminato");
-            }
-
-            $stm = $pdo->prepare("DELETE FROM utente WHERE id = :id");
-            $stm->execute(["id" => $id_utente]);
-            session_destroy();
-            header("Location: index.html");
-            exit;
-        }
 
         // — salvataggio modifica
         elseif (isset($_POST["azione"]) && $_POST["azione"] === "modifica") {
@@ -415,8 +397,7 @@ header("Pragma: no-cache");
         .btn-blu:disabled { background: #b3d1f7; cursor: not-allowed; }
         .btn-grigio { background: #6c757d; color: #fff; }
         .btn-grigio:hover { background: #5a6268; }
-        .btn-rosso  { background: #dc3545; color: #fff; }
-        .btn-rosso:hover { background: #b02a37; }
+
         .btn-full   { width: 100%; padding: 11px; }
         .btn-link   { display: inline-block; padding: 10px 18px; background: #6c757d; color: #fff; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.88rem; }
         .btn-link:hover { background: #5a6268; }
@@ -549,9 +530,7 @@ header("Pragma: no-cache");
                 </div>
             </div>
 
-            <button class="btn btn-rosso btn-full" onclick="document.getElementById('overlay_elimina').classList.add('visibile')">
-                <i class="fa fa-trash"></i> elimina account
-            </button>
+
         </div>
 
         <!-- ===== COLONNA DESTRA: modifica ===== -->
@@ -672,22 +651,6 @@ header("Pragma: no-cache");
             <button class="btn btn-grigio" onclick="document.getElementById('overlay_conferma').classList.remove('visibile')">annulla</button>
             <button class="btn btn-blu" onclick="document.getElementById('form_modifica').submit()">salva</button>
         </div>
-    </div>
-</div>
-
-<!-- modale conferma eliminazione -->
-<div id="overlay_elimina" class="overlay">
-    <div class="modale">
-        <h3 style="color:#dc3545;"><i class="fa fa-exclamation-triangle"></i> elimina account</h3>
-        <p>questa azione è irreversibile.<br>inserisci la tua password per confermare.</p>
-        <form method="POST">
-            <input type="hidden" name="azione" value="elimina">
-            <input type="password" name="password_conferma" placeholder="la tua password" required>
-            <div class="gruppo-btn" style="justify-content:center;">
-                <button type="button" class="btn btn-grigio" onclick="document.getElementById('overlay_elimina').classList.remove('visibile')">annulla</button>
-                <button type="submit" class="btn btn-rosso">elimina</button>
-            </div>
-        </form>
     </div>
 </div>
 
